@@ -33,11 +33,19 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
     const { data } = await axios.get(
       `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
     )
+    // .then((res)=>{
+    //   console.log(res)
+    //   dispatch({
+    //     type: PRODUCT_LIST_SUCCESS,
+    //     payload: res,
+    //   })
+    // })
 
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: data,
     })
+    console.log(data)
   } catch (error) {
     dispatch({
       type: PRODUCT_LIST_FAIL,
@@ -46,6 +54,7 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
           ? error.response.data.message
           : error.message,
     })
+    console.log('data not foud')
   }
 }
 
