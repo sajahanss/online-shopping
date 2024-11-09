@@ -16,7 +16,7 @@ const ProductEditScreen = ({ match, history }) => {
   const [price, setPrice] = useState(0)
   const [image, setImage] = useState('')
   const [brand, setBrand] = useState('')
-  const [category, setCategory] = useState('')
+  const [category, setCategory] = useState('Atta & Rice')
   const [countInStock, setCountInStock] = useState(0)
   const [description, setDescription] = useState('')
   const [uploading, setUploading] = useState(false)
@@ -54,10 +54,13 @@ const ProductEditScreen = ({ match, history }) => {
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
+    const base64 = await convertToBase64(file);
     const formData = new FormData()
     formData.append('image', file)
+    console.log(base64)
+    setImage(base64)
     setUploading(true)
-
+    
     try {
       const config = {
         headers: {
@@ -65,9 +68,9 @@ const ProductEditScreen = ({ match, history }) => {
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
-
-      setImage(data)
+      const { data } = await axios.post('/api/upload',formData,config)
+      console.log(data)
+      // setImage(data)
       setUploading(false)
     } catch (error) {
       console.error(error)
@@ -166,11 +169,19 @@ const ProductEditScreen = ({ match, history }) => {
             <Form.Group controlId='category'>
               <Form.Label>Category</Form.Label>
               <Form.Control
-                type='text'
-                placeholder='Enter category'
+                as='select'
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
+              >
+                <option value='Atta & Rice'>Atta & Rice</option>
+                <option value='Bakery,Cakes, dairy'>Bakery,Cakes, dairy</option>
+                <option value='Chocolates & Ice Cream'>Chocolates & Ice Cream</option>
+                <option value='Dals & Sugar'>Dals & Sugar</option>
+                <option value='Eggs,Meat & Fish'>Eggs,Meat & Fish</option>
+                <option value='Grocery'>Grocery</option>
+                <option value='Fruits & Vegitables'>Fruits & Vegitables</option>
+                <option value='Oils & Dry Fruits'>Oils & Dry Fruits</option>
+              </Form.Control>
             </Form.Group>
 
             <Form.Group controlId='description'>
@@ -194,3 +205,17 @@ const ProductEditScreen = ({ match, history }) => {
 }
 
 export default ProductEditScreen
+
+
+function convertToBase64(file){
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result)
+    };
+    fileReader.onerror = (error) => {
+      reject(error)
+    }
+  })
+}
