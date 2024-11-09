@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "proxy" : "https://online-shopping-r092.onrender.com",
+  "proxy" : "http://localhost:8000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
