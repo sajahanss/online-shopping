@@ -31,7 +31,7 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
     dispatch({ type: PRODUCT_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      `https://online-shopping-r092.onrender.com/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
     )
 
     dispatch({

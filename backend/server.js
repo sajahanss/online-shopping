@@ -34,7 +34,15 @@ app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/upload', fileupload)
-app.use(cors())
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));  // Use cors middleware
 
 app.use(function (req,res,next){
   res.header('Access-Control-Allow-Origin','*');
